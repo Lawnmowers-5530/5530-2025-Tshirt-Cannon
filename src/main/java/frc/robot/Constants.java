@@ -68,6 +68,7 @@ public final class Constants {
 		public static final int hub_id = 0; // pneumatic hub id
 		public static final int hp_channel = 0; // high pressure solenoid channel
 		public static final int qd_channel = 0; // dump solenoid channel
+		
 		public static final int shirt1_channel = 0;
 		public static final int shirt2_channel = 0;
 		public static final int shirt3_channel = 0;

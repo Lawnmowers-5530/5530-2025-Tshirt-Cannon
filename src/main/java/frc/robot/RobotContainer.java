@@ -16,17 +16,20 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.subsystems.SolenoidController;
 import frc.robot.subsystems.Swerve;
 
 public class RobotContainer {
   private Swerve swerve;
   private CommandXboxController driverController;
+  private SolenoidController solenoidController;
 
   private Supplier<Vector<N2>> driveVectorSupplier;
   private DoubleSupplier driveRotationSupplier;
 
   public RobotContainer() {
     swerve = new Swerve();
+    solenoidController = new SolenoidController();
     driverController = new CommandXboxController(0);
 
     driveVectorSupplier = () -> {
@@ -47,7 +50,7 @@ public class RobotContainer {
 					ControllerConstants.driveControllerJoystickDeadband,
 					1);
   };
-  
+
   configureBindings();
 }
 
@@ -57,6 +60,11 @@ public class RobotContainer {
     },
         swerve);
     swerve.setDefaultCommand(swerveCommand);
+
+    //shoots the next shirt, starting with shirt one and looping over after shirt 6
+    this.driverController.a().onTrue(this.solenoidController.getShootCommand());
+
+
   }
 
   public Command getAutonomousCommand() {

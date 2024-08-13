@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,36 +17,36 @@ public class SolenoidController extends SubsystemBase {
 	/**
 	 * Controls flow from the high pressure tank to the low pressure tank
 	 */
-	Solenoid hp;
+	private Solenoid hp;
 	/**
 	 * Used to open the quick dump valve
 	 */
-	Solenoid qd;
+	private Solenoid qd;
 
 	/**
 	 * Open flow to shirt 1 valve
 	 */
-	Solenoid shirt1;
+	private Solenoid shirt1;
 	/**
 	 * Open flow to shirt 2 valve
 	 */
-	Solenoid shirt2;
+	private Solenoid shirt2;
 	/**
 	 * Open flow to shirt 3 valve
 	 */
-	Solenoid shirt3;
+	private Solenoid shirt3;
 	/**
 	 * Open flow to shirt 4 valve
 	 */
-	Solenoid shirt4;
+	private Solenoid shirt4;
 	/**
 	 * Open flow to shirt 5 valve
 	 */
-	Solenoid shirt5;
+	private Solenoid shirt5;
 	/**
 	 * Open flow to shirt 6 valve
 	 */
-	Solenoid shirt6;
+	private Solenoid shirt6;
 
 	/**
 	 * Keep track of the last shirt # fired
@@ -140,7 +139,7 @@ public class SolenoidController extends SubsystemBase {
 											shirt6.set(true);
 									}
 									qd.startPulse();
-									this.lastShirt += 1;
+									this.lastShirt = (this.lastShirt + 1) % 6;
 								},
 								this));
 	}
@@ -152,7 +151,10 @@ public class SolenoidController extends SubsystemBase {
 	 * @return A new {@link SequentialCommandGroup} to fill the tank and then shoot
 	 *         the given shirt number
 	 */
-	public SequentialCommandGroup getShootCommand(int shirt) {
+	public SequentialCommandGroup getShootCommand(int shirt) throws IndexOutOfBoundsException {
+		if (shirt < 1 || shirt > 6) {
+			throw new IndexOutOfBoundsException();
+		}
 		return fill.andThen(
 				new WaitCommand(1))
 				.andThen(
@@ -180,8 +182,7 @@ public class SolenoidController extends SubsystemBase {
 								this));
 	}
 
-	@Override
-	public void periodic() {
+	@Override public void periodic() {
 		// This method will be called once per scheduler run
 	}
 }
