@@ -1,0 +1,1 @@
+FRC 5530 offseaon code project. 6 cylinder T-Shirt cannon on a 2 swerve 2 omni chassis design. Some code in this project is copyrighted by FIRST and other WPILib contributors. All original code in this project in licensed under an MIT license. See LICENSE and WPILib-License.
